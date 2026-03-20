@@ -1,0 +1,178 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\geometry{margin=1in}
+
+\title{Aplicaciones y Ejercicios de Probabilidad\(Con validación en Python)}
+\author{}
+\date{}
+
+\lstset{
+language=Python,
+basicstyle=\ttfamily\small,
+keywordstyle=\color{blue},
+commentstyle=\color{gray},
+stringstyle=\color{red},
+breaklines=true
+}
+
+\begin{document}
+
+\maketitle
+
+\section{T3. Aplicaciones de Probabilidad Conjunta}
+
+\subsection{Aplicación 1: Caso Discreto}
+
+Se define la función de probabilidad conjunta:
+
+[
+P(X=x, Y=y) =
+\begin{cases}
+0.1 & (x,y)=(0,0) \
+0.2 & (x,y)=(0,1) \
+0.3 & (x,y)=(1,0) \
+0.4 & (x,y)=(1,1)
+\end{cases}
+]
+
+Validación: la suma total debe ser 1.
+
+\begin{lstlisting}
+import numpy as np
+
+prob = {
+(0,0):0.1,
+(0,1):0.2,
+(1,0):0.3,
+(1,1):0.4
+}
+
+print(sum(prob.values()))
+\end{lstlisting}
+
+\subsection{Aplicación 2: Caso Continuo}
+
+Se define la función de densidad:
+
+[
+f(x,y) = 2 \quad \text{para } 0 < x < y < 1
+]
+
+Validación:
+
+[
+\int_0^1 \int_0^y 2 , dx , dy = 1
+]
+
+\begin{lstlisting}
+import sympy as sp
+
+x, y = sp.symbols('x y')
+f = 2
+
+resultado = sp.integrate(sp.integrate(f, (x, 0, y)), (y, 0, 1))
+print(resultado)
+\end{lstlisting}
+
+\section{T4. Distribuciones de Probabilidad}
+
+\subsection{Distribución Binomial}
+
+\textbf{Ejercicio 1:}
+
+[
+P(X=3)=\binom{5}{3}(0.5)^3(0.5)^2
+]
+
+\begin{lstlisting}
+from math import comb
+
+n=5
+p=0.5
+k=3
+
+prob = comb(n,k)*(p**k)*((1-p)**(n-k))
+print(prob)
+\end{lstlisting}
+
+\textbf{Ejercicio 2:}
+
+[
+\mu = np = 5(0.5) = 2.5
+]
+
+\subsection{Distribución Poisson}
+
+\textbf{Ejercicio 1:}
+
+[
+P(X=2)= e^{-3} \frac{3^2}{2!}
+]
+
+\begin{lstlisting}
+import math
+
+lam=3
+k=2
+
+prob = math.exp(-lam)*(lam**k)/math.factorial(k)
+print(prob)
+\end{lstlisting}
+
+\textbf{Ejercicio 2:}
+
+[
+\mu = \lambda = 3
+]
+
+\subsection{Distribución Normal}
+
+\textbf{Ejercicio 1:}
+
+[
+P(X < 1)
+]
+
+\begin{lstlisting}
+from scipy.stats import norm
+
+prob = norm.cdf(1, loc=0, scale=1)
+print(prob)
+\end{lstlisting}
+
+\textbf{Ejercicio 2:}
+
+[
+\mu, \quad \sigma^2
+]
+
+\subsection{Distribución Exponencial}
+
+\textbf{Ejercicio 1:}
+
+[
+P(X < 2)
+]
+
+\begin{lstlisting}
+from scipy.stats import expon
+
+prob = expon.cdf(2, scale=1)
+print(prob)
+\end{lstlisting}
+
+\textbf{Ejercicio 2:}
+
+[
+\mu = \frac{1}{\lambda}
+]
+
+\section{Conclusión}
+
+Se desarrollaron aplicaciones de probabilidad conjunta para casos discreto y continuo, así como ejercicios teóricos de distribuciones importantes, validados mediante Python.
+
+\end{document}
